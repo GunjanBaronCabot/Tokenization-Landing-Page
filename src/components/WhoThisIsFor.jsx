@@ -5,21 +5,40 @@ import Button from './Button.jsx'
 import RevealText from './RevealText.jsx'
 import StackSection from './StackSection.jsx'
 import whoSkyscrapers from '../assets/who-skyscrapers.jpg'
-import whoHandshake from '../assets/who-handshake.jpg'
-import aboutGlassTower from '../assets/about-glass-tower.jpg'
-import whoLivingRoom from '../assets/who-living-room.webp'
+import whoHandshake from '../assets/who-handshake.webp'
+import whoReviewDetails from '../assets/who-review-details.jpg'
+import whoConsultation from '../assets/who-consultation.png'
+import pressBbc from '../assets/press-bbc.png'
+import pressBloomberg from '../assets/press-bloomberg.png'
+import pressCnbc from '../assets/press-cnbc.png'
+import pressCnn from '../assets/press-cnn.png'
+import pressForbes from '../assets/press-forbes.png'
+import pressTheTimes from '../assets/press-the-times.png'
+import pressThomson from '../assets/press-thomson.png'
+import pressVentures from '../assets/press-ventures.png'
 
 const AUTO_ROTATE_INTERVAL = 3200
 const RESUME_AFTER_INTERACTION = 5000
 
 const CARDS = [
-  { text: 'You are ready to invest $50k+ globally.', image: whoHandshake, icon: Globe2 },
+  { text: 'Step One: Complete them short application form.', image: whoHandshake, icon: Globe2 },
   {
-    text: 'You are seeking thoroughly vetted investment opportunities.',
-    image: aboutGlassTower,
+    text: 'Step Two:  Our team will review your information.',
+    image: whoReviewDetails,
     icon: ShieldCheck,
   },
-  { text: 'You want to generate passive rental income.', image: whoLivingRoom, icon: Home },
+  { text: "Step Three: We'll invite you to a complimentary consultation.", image: whoConsultation, icon: Home },
+]
+
+const PRESS_LOGOS = [
+  { name: 'BBC', src: pressBbc },
+  { name: 'Bloomberg', src: pressBloomberg },
+  { name: 'CNBC', src: pressCnbc },
+  { name: 'CNN', src: pressCnn },
+  { name: 'Forbes', src: pressForbes },
+  { name: 'The Times', src: pressTheTimes },
+  { name: 'Thomson', src: pressThomson },
+  { name: 'Ventures', src: pressVentures },
 ]
 
 const fadeUp = {
@@ -40,7 +59,7 @@ const cardRise = {
       ease: [0.16, 1, 0.3, 1],
       staggerChildren: 0.15,
       delayChildren: i * 0.15 + 0.35,
-    },
+    }, 
   }),
 }
 
@@ -61,6 +80,7 @@ export default function WhoThisIsFor() {
   const pausedRef = useRef(false)
   const resumeTimeoutRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
+  
   const prefersReducedMotion = useReducedMotion()
   const isSectionInView = useInView(sectionRef, { amount: 0.5 })
 
@@ -124,7 +144,7 @@ export default function WhoThisIsFor() {
   return (
     <StackSection
       index={2}
-      className="relative flex min-h-[100dvh] items-center overflow-hidden bg-white px-4 py-8 sm:px-6 sm:py-20 lg:px-10"
+      className="relative flex min-h-[100dvh] items-start overflow-hidden bg-white px-4 pb-16 pt-8 sm:px-6 sm:pb-24 sm:pt-14 lg:px-10"
     >
       <img
         src={whoSkyscrapers}
@@ -153,18 +173,19 @@ export default function WhoThisIsFor() {
               animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
               transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
             />
-            Who This Webinar Is For
+            How It Works
           </motion.div>
 
           <h2 className="mt-4 font-serif text-[30px] font-semibold leading-[1.15] text-white sm:mt-4 sm:text-[40px] lg:text-[42px]">
-            <RevealText text="Are you one of these people?" />
+           
+            <RevealText text="Simple 3 Step Process" />
           </h2>
 
           <motion.p
             variants={fadeUp}
-            className="mt-3 max-w-xs font-sans text-sm leading-relaxed text-white/75 sm:mt-4 sm:text-sm"
+            className="mt-1 max-w-xs font-sans text-sm leading-relaxed text-white/75 sm:mt-4 sm:text-sm"
           >
-            If any of this sounds like you, this session is built for you.
+            Apply in minutes, we'll review your details, and qualified application will receive an invitation to a complimentary private consultantion.
           </motion.p>
 
           <motion.div variants={fadeUp} className="mt-4 sm:mt-8">
@@ -193,7 +214,7 @@ export default function WhoThisIsFor() {
                 whileHover={{ y: -10, scale: 1.03, transition: { duration: 0.3, ease: 'easeOut' } }}
                 className="group flex w-[85%] shrink-0 snap-center flex-col overflow-hidden rounded-xl shadow-lg transition-shadow duration-300 hover:shadow-2xl sm:w-auto sm:rounded-2xl"
               >
-                <div className="flex min-h-[80px] items-start bg-navy p-4 sm:min-h-[100px] sm:p-5">
+                <div className="flex min-h-[70px] items-start border-b border-white/10 bg-white/10 p-4 backdrop-blur-md sm:min-h-[90px] sm:p-5">
                   <motion.p
                     variants={cardTextReveal}
                     className="font-serif text-base font-medium leading-snug text-white sm:text-lg"
@@ -201,7 +222,7 @@ export default function WhoThisIsFor() {
                     {text}
                   </motion.p>
                 </div>
-                <div className="relative min-h-[220px] flex-1 overflow-hidden sm:min-h-[240px]">
+                <div className="relative min-h-[150px] flex-1 overflow-hidden sm:min-h-[170px]">
                   <img
                     src={image}
                     alt=""
@@ -227,6 +248,20 @@ export default function WhoThisIsFor() {
               ← Swipe to see more →
             </motion.span>
           </div>
+        </div>
+      </div>
+
+      <div className="absolute inset-x-0 bottom-14 z-20 overflow-hidden py-3 sm:bottom-20 sm:py-5">
+        <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-navy/20 to-transparent" />
+        <div className="relative flex w-max animate-marquee items-center gap-10 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)] sm:gap-16">
+          {[...PRESS_LOGOS, ...PRESS_LOGOS].map((logo, i) => (
+            <img
+              key={`${logo.name}-${i}`}
+              src={logo.src}
+              alt={logo.name}
+              className="h-5 w-auto shrink-0 object-contain opacity-80 brightness-0 invert transition-opacity duration-300 hover:opacity-100 sm:h-7"
+            />
+          ))}
         </div>
       </div>
     </StackSection>

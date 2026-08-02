@@ -8,7 +8,6 @@ import Parallax from './Parallax.jsx'
 const INTERESTS = [
   'Residential Property',
   'Commercial Property',
-  'Tokenised Investment',
   'Buy-to-Let',
   'Portfolio Diversification',
   'Passive Income',
@@ -90,8 +89,7 @@ export default function InquirySection() {
               className="mt-2 hidden max-w-md font-sans text-sm leading-relaxed text-white/75 sm:block sm:text-base"
             >
               Tell us a little about what you're looking for, and our team will
-              help you find the right UK property opportunity — traditional or
-              tokenised.
+              help you find the right UK property opportunity.
             </motion.p>
 
             <div className="mt-4">

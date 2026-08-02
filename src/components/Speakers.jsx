@@ -4,13 +4,13 @@ import RevealText from './RevealText.jsx'
 import StackSection from './StackSection.jsx'
 import FloatingBadge from './FloatingBadge.jsx'
 import AvatarCluster from './AvatarCluster.jsx'
-import speakerMichael from '../assets/speaker-michael-leighton-2.png'
-import speakerScott from '../assets/speaker-scott-thiel-2.png'
+import speakerMark from '../assets/speaker-mark-pearson.png'
+import speakerTom from '../assets/speaker-tom-hepworth.png'
 import speakersSky from '../assets/speakers-tower-bridge-2.jpg'
 
 const SPEAKERS = [
-  { name: 'Michael Leighton', role: 'CEO, API Global', image: speakerMichael },
-  { name: 'Scott Thiel', role: 'CEO & Co-Founder, Tokinvest', image: speakerScott },
+  { name: 'Mark Pearson', role: 'Managing Partner', image: speakerMark },
+  { name: 'Tom Hepworth', role: 'Associate Director', image: speakerTom },
 ]
 
 const starPop = {
@@ -30,6 +30,11 @@ const cardRise = {
     y: 0,
     transition: { duration: 0.6, delay: i * 0.15, ease: 'easeOut' },
   }),
+}
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } },
 }
 
 export default function Speakers() {
@@ -89,13 +94,25 @@ export default function Speakers() {
 
       <div className="relative z-10 mx-auto -mt-8 flex max-w-4xl flex-col items-center text-center sm:-mt-14 lg:-mt-20">
         <h2 className="font-serif text-[30px] font-semibold text-white sm:text-[40px] lg:text-[48px]">
-          <RevealText text="Meet Your Speakers" />
+          <RevealText text="Experts Behind Baron & Cabot" />
         </h2>
-        <p className="mt-2 hidden max-w-xl font-sans text-sm leading-relaxed text-white/75 sm:block sm:text-base">
-          Hear directly from the industry leaders hosting this session.
-        </p>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.6 }}
+          variants={fadeUp}
+          className="mt-3 flex flex-wrap items-center justify-center gap-x-2 gap-y-1.5 rounded-2xl border border-white/20 bg-white/10 px-4 py-2.5 font-sans text-xs font-semibold text-white shadow-lg backdrop-blur-md sm:mt-6 sm:gap-x-3 sm:px-6 sm:py-3 sm:text-sm"
+        >
+          <span>Private Consultation</span>
+          <span className="text-white/30">|</span>
+          <span>Advice & Guidance</span>
+          <span className="text-white/30">|</span>
+          <span>Tailored Recommendations</span>
+          <span className="text-white/30">|</span>
+          <span>Comprehensive ROI Forecasts</span>
+        </motion.div>
 
-        <div className="mt-4 flex flex-row gap-6 sm:mt-12 sm:gap-14">
+        <div className="mt-4 flex flex-row justify-center gap-6 sm:mt-12 sm:gap-14">
           {SPEAKERS.map(({ name, role, image }, i) => (
             <motion.div
               key={name}
@@ -114,7 +131,7 @@ export default function Speakers() {
                 />
               </div>
               <p className="font-serif text-lg font-semibold text-white sm:text-xl">{name}</p>
-              <p className="font-sans text-sm text-white sm:text-sm">{role}</p>
+              <p className="-mt-1 font-sans text-sm text-white sm:-mt-2 sm:text-sm">{role}</p>
             </motion.div>
           ))}
         </div>

@@ -25,7 +25,7 @@ export default function Header() {
           <img src={logo} alt="Baron & Cabot logo" className="h-10 w-auto sm:h-12" />
         </motion.div>
 
-        <motion.nav variants={fadeDown} className="hidden items-center gap-8 md:flex">
+        {/* <motion.nav variants={fadeDown} className="hidden items-center gap-8 md:flex">
           <a
             href="#register"
             className="flex items-center gap-2 whitespace-nowrap font-sans text-sm font-bold text-[#0F5132] transition-colors hover:text-[#0a3a24]"
@@ -36,7 +36,7 @@ export default function Header() {
             </span>
             Live Webinar
           </a>
-        </motion.nav>
+        </motion.nav> */}
 
         <motion.a
           variants={fadeDown}

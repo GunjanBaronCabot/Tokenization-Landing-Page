@@ -9,18 +9,13 @@ import TagRibbon from './TagRibbon.jsx'
 import exclusiveBg from '../assets/exclusive-opportunity-bg.png'
 
 const HEADING_WORDS = [
-  { word: 'Tokenisation', accent: true },
-  { word: 'Has' },
-  { word: 'Made' },
-  { word: 'It' },
-  { word: 'Easier', accent: true },
-  { word: 'Than' },
-  { word: 'Ever' },
+  { word: 'The', accent: true },
+  { word: 'First' },
+  { word: 'Step' },
   { word: 'to' },
-  { word: 'Invest' },
-  { word: 'in' },
-  { word: 'UK', accent: true },
+  { word: 'Smarter', accent: true },
   { word: 'Property', accent: true },
+  { word: 'Investing', accent: true },
 ]
 
 const container = {
@@ -55,9 +50,9 @@ export default function ValueProposition() {
       <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent sm:h-28" />
 
       <AnimatedStat
-        value={20000}
-        prefix="£"
-        label="Minimum Investment"
+        value={122}
+        suffix="-Point"
+        label="Due Diligence"
         side="left"
         transparent
         className="left-2 top-2 lg:left-8 lg:top-8"
@@ -96,9 +91,9 @@ export default function ValueProposition() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-3 max-w-2xl font-sans text-base font-medium leading-relaxed text-muted sm:mt-4 sm:text-base sm:leading-relaxed lg:text-lg"
         >
-          No more heavy deposits or complex ownership structures just a simple,
-          transparent way in. Join us in the webinar and we'll walk you
-          through exactly how it works.
+          Before you invest, get expert guidance on the UK property market,
+          understand your opportunities, and build a strategy tailored to
+          your goals.
         </motion.p>
 
         <motion.div
@@ -108,9 +103,7 @@ export default function ValueProposition() {
           transition={{ duration: 0.6, delay: 0.45 }}
           className="mt-3 flex items-center gap-2.5 rounded-2xl border border-navy/10 bg-transparent px-5 py-3 font-sans text-sm font-semibold text-navy shadow-lg sm:mt-4 sm:gap-3 sm:px-6 sm:py-3 sm:text-base"
         >
-          <span>23 July 2026</span>
-          <span className="text-navy/30">|</span>
-          <span>1 PM GST (UAE)</span>
+          <span>Online One to One Consultation</span>
         </motion.div>
 
         <motion.div
@@ -120,12 +113,12 @@ export default function ValueProposition() {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="mt-4 sm:mt-6"
         >
-          <Button className="text-sm sm:text-base">Register for the event now</Button>
+          <Button className="text-sm sm:text-base">Schedule Your Clarity Call</Button>
         </motion.div>
       </div>
 
       <TagRibbon
-        tags={['Global Investors', 'Vetted Deals', 'Passive Income', 'Tokenised Assets']}
+        tags={['Global Investors', 'Vetted Deals', 'Passive Income']}
         tone="dark"
         className="inset-x-0 bottom-20 sm:bottom-30 lg:hidden"
       />

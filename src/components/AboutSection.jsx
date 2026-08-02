@@ -93,16 +93,16 @@ export default function AboutSection() {
 
             <div className="relative z-10 flex h-full flex-col justify-between gap-2 p-4 sm:gap-8 sm:p-8">
               <p className="max-w-xl font-sans text-sm leading-relaxed text-white/90 sm:text-base">
-                Join us for an exclusive webinar for serious investors
-                exploring UK property through tokenisation using Great
-                Hampton Street Button Works, Birmingham as a live case
-                study.
+                Baron & Cabot is a global UK property investment company
+                helping investors build wealth through carefully selected
+                real estate opportunities.
                 <br />
                 <br />
-                Tokenisation can help make your property investment dreams a
-                reality. You don't need to pay the full amount with a small
-                budget, you can start investing in UK property today. We'll
-                show you exactly how it works, live.
+                Backed by expert research, rigorous due diligence, and
+                end-to-end support, we make investing in UK property simple,
+                transparent, and secure. Book your complimentary consultation
+                and discover the investment opportunities that best match
+                your goals.
               </p>
 
               <a

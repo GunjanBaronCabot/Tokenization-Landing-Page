@@ -42,7 +42,7 @@ export default function Hero() {
           src={heroBanner}
           alt=""
           style={{ y: bgY, scale: bgScale }}
-          className="absolute inset-0 h-full w-full object-cover object-top will-change-transform"
+          className="absolute inset-0 h-full w-full object-cover object-[center_20%] will-change-transform"
         />
 
         <GradientOrb
@@ -74,27 +74,27 @@ export default function Hero() {
         >
           <motion.h1
             variants={fadeUp}
-            className="font-serif text-[26px] font-semibold leading-[1.15] tracking-[-0.01em] text-navy sm:text-[36px] lg:text-[46px] lg:leading-[1.15]"
+            className="font-serif text-[26px] font-semibold leading-[1.15] tracking-[-0.01em] text-white sm:text-[36px] lg:text-[46px] lg:leading-[1.15]"
           >
-            It Just Takes £20,000 to Access UK Property
+            Apply For A Private Investment Consultation
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
-            className="mt-3 max-w-xl font-sans text-xs font-medium leading-relaxed text-navy sm:text-base"
+            className="mt-3 max-w-xl font-sans text-xs font-medium leading-relaxed text-white sm:text-base"
           >
-            Always wanted to invest in property but don't have the full
-            deposit? Tokenisation may be the solution. Join our exclusive
-            webinar to learn how it works
+            Speak directly with an experienced UK property investment
+            consultant and discover how the right strategy could help you
+            achieve your financial goals.
           </motion.p>
 
           <motion.div
             variants={fadeUp}
-            className="mt-3 flex items-center gap-2 rounded-2xl border border-white/40 bg-white/20 px-4 py-3 font-sans text-xs font-semibold text-navy shadow-lg backdrop-blur-md sm:mt-6 sm:gap-4 sm:px-8 sm:py-5 sm:text-sm"
+            className="mt-3 flex items-center gap-2 rounded-2xl border border-white/40 bg-white/20 px-4 py-3 font-sans text-xs font-semibold text-white shadow-lg backdrop-blur-md sm:mt-6 sm:gap-4 sm:px-8 sm:py-5 sm:text-sm"
           >
-            <span>23 July 2026</span>
-            <span className="text-navy/30">|</span>
-            <span>1 PM GST (UAE)</span>
+            <span>Choose Your Preferred Date</span>
+            <span className="text-white/30">|</span>
+            <span>Online One-to-One Consultation</span>
           </motion.div>
 
           <motion.div
@@ -102,7 +102,7 @@ export default function Hero() {
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.9 }}
             className="mt-5"
           >
-            <Button className="text-sm">Register Your Spot Now</Button>
+            <Button className="text-sm">Book Your Free Strategy Session</Button>
           </motion.div>
         </motion.div>
 
