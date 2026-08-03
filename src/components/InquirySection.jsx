@@ -1,20 +1,33 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Star, ChevronDown } from 'lucide-react'
+import { Star, ChevronDown, Loader2 } from 'lucide-react'
 import inquiryBg from '../assets/inquiry-bg.jpg'
 import RevealText from './RevealText.jsx'
 import Parallax from './Parallax.jsx'
 
-const INTERESTS = [
-  'Residential Property',
-  'Commercial Property',
-  'Buy-to-Let',
-  'Portfolio Diversification',
-  'Passive Income',
+const HUBSPOT_PORTAL_ID = '143628000'
+const HUBSPOT_FORM_ID = '8c5eca90-cd71-468f-96d4-4d3536a5d721'
+const HUBSPOT_ENDPOINT = `https://api-eu1.hsforms.com/submissions/v3/integration/submit/${HUBSPOT_PORTAL_ID}/${HUBSPOT_FORM_ID}`
+
+const CAPITAL_OPTIONS = [
+  'More than £20,000',
+  'More than £40,000',
+  'More than £60,000',
+  'More than £80,000',
+  'More than £100,000',
+  'More than £150,000',
+  'Less than £40,000',
 ]
 
-const BUDGETS = ['£20k – £50k', '£50k – £100k', '£100k – £250k', '£250k+']
-const TIMELINES = ['Immediately', '1 – 3 months', '3 – 6 months', '6 – 12 months', 'Just exploring']
+const TIMELINE_OPTIONS = [
+  'Now',
+  '1-2 months',
+  '2-6 months',
+  '6-12 months',
+  '12-124 months',
+  '24 months+',
+  'Not looking to invest',
+]
 
 const fieldClass =
   'w-full rounded-lg border border-white/15 bg-white/5 px-3.5 py-2 font-sans text-sm text-white placeholder-white/40 outline-none backdrop-blur-sm transition-colors focus:border-white/40 focus:bg-white/10'
@@ -41,11 +54,59 @@ const starPop = {
   }),
 }
 
-export default function InquirySection() {
-  const [selected, setSelected] = useState([])
+const emptyForm = {
+  firstname: '',
+  lastname: '',
+  email: '',
+  phone: '',
+  country: '',
+  what_capital_are_you_looking_to_invest: '',
+  when_do_you_want_to_invest: '',
+}
 
-  const toggle = (item) =>
-    setSelected((s) => (s.includes(item) ? s.filter((x) => x !== item) : [...s, item]))
+function getHubspotTrackingCookie() {
+  const match = document.cookie.match(/(?:^|;\s*)hubspotutk=([^;]+)/)
+  return match ? match[1] : null
+}
+
+export default function InquirySection() {
+  const [form, setForm] = useState(emptyForm)
+  const [status, setStatus] = useState('idle') // idle | submitting | success | error
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setForm((f) => ({ ...f, [name]: value }))
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setStatus('submitting')
+
+    const hutk = getHubspotTrackingCookie()
+
+    try {
+      const res = await fetch(HUBSPOT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fields: Object.entries(form).map(([name, value]) => ({ name, value })),
+          context: {
+            pageUri: window.location.href,
+            pageName: document.title,
+            ...(hutk ? { hutk } : {}),
+          },
+        }),
+      })
+
+      if (!res.ok) throw new Error(`HubSpot submission failed: ${res.status}`)
+
+      setStatus('success')
+      setForm(emptyForm)
+    } catch (err) {
+      console.error(err)
+      setStatus('error')
+    }
+  }
 
   return (
     <section
@@ -60,7 +121,7 @@ export default function InquirySection() {
         className="relative mx-auto w-full max-w-7xl overflow-hidden rounded-3xl shadow-2xl"
       >
         <Parallax speed={0.08} className="absolute inset-0">
-          <img src={inquiryBg} alt="" className="h-full w-full scale-110 object-cover" />
+          <img src={inquiryBg} alt="" loading="lazy" decoding="async" className="h-full w-full scale-110 object-cover" />
         </Parallax>
         <div className="absolute inset-0 bg-gradient-to-r from-navy/90 via-navy/60 to-navy/30" />
 
@@ -137,102 +198,159 @@ export default function InquirySection() {
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.15 }}
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubmit}
             className="w-full max-w-md rounded-2xl border border-white/10 bg-navy/40 p-4 backdrop-blur-xl sm:p-5"
           >
-            <motion.div variants={fieldRise}>
-              <label className={labelClass}>Full Name*</label>
-              <input required type="text" placeholder="Jane Smith" className={fieldClass} />
-            </motion.div>
-
-            <motion.div variants={fieldRise} className="mt-2.5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-              <div>
-                <label className={labelClass}>Email Address*</label>
-                <input required type="email" placeholder="jane@email.com" className={fieldClass} />
-              </div>
-              <div>
-                <label className={labelClass}>Phone Number</label>
-                <input type="tel" placeholder="+44 7000 000000" className={fieldClass} />
-              </div>
-            </motion.div>
-
-            <motion.div variants={fieldRise} className="mt-2.5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
-              <div>
-                <label className={labelClass}>Investment Budget*</label>
-                <div className="relative">
-                  <select required defaultValue="" className={`${fieldClass} appearance-none pr-9`}>
-                    <option value="" disabled className="text-navy">
-                      Select budget…
-                    </option>
-                    {BUDGETS.map((b) => (
-                      <option key={b} value={b} className="text-navy">
-                        {b}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-white/50" />
-                </div>
-              </div>
-              <div>
-                <label className={labelClass}>Timeline</label>
-                <div className="relative">
-                  <select defaultValue="" className={`${fieldClass} appearance-none pr-9`}>
-                    <option value="" disabled className="text-navy">
-                      Select timeline…
-                    </option>
-                    {TIMELINES.map((t) => (
-                      <option key={t} value={t} className="text-navy">
-                        {t}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-white/50" />
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div variants={fieldRise} className="mt-2.5">
-              <label className={labelClass}>What are you interested in?</label>
-              <div className="grid grid-cols-2 gap-x-3 gap-y-1 sm:grid-cols-3">
-                {INTERESTS.map((item, i) => (
-                  <motion.label
-                    key={item}
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, amount: 0.6 }}
-                    transition={{ duration: 0.4, delay: 0.5 + i * 0.05 }}
-                    className="flex cursor-pointer items-center gap-1.5 font-sans text-xs text-white/85"
-                  >
+            {status === 'success' ? (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="flex flex-col items-center justify-center py-10 text-center"
+              >
+                <p className="font-serif text-lg font-semibold text-white">Thank you!</p>
+                <p className="mt-2 font-sans text-sm text-white/70">
+                  We've received your inquiry and will be in touch shortly.
+                </p>
+              </motion.div>
+            ) : (
+              <>
+                <motion.div variants={fieldRise} className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                  <div>
+                    <label className={labelClass}>First Name*</label>
                     <input
-                      type="checkbox"
-                      checked={selected.includes(item)}
-                      onChange={() => toggle(item)}
-                      className="h-3.5 w-3.5 shrink-0 rounded border-white/30 bg-white/5 accent-white"
+                      required
+                      type="text"
+                      name="firstname"
+                      value={form.firstname}
+                      onChange={handleChange}
+                      placeholder="Jane"
+                      className={fieldClass}
                     />
-                    {item}
-                  </motion.label>
-                ))}
-              </div>
-            </motion.div>
+                  </div>
+                  <div>
+                    <label className={labelClass}>Last Name*</label>
+                    <input
+                      required
+                      type="text"
+                      name="lastname"
+                      value={form.lastname}
+                      onChange={handleChange}
+                      placeholder="Smith"
+                      className={fieldClass}
+                    />
+                  </div>
+                </motion.div>
 
-            <motion.div variants={fieldRise} className="mt-2.5 hidden sm:block">
-              <label className={labelClass}>Message</label>
-              <textarea
-                rows={2}
-                placeholder="Tell us about your investment goals…"
-                className={`${fieldClass} resize-none`}
-              />
-            </motion.div>
+                <motion.div variants={fieldRise} className="mt-2.5 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                  <div>
+                    <label className={labelClass}>Email*</label>
+                    <input
+                      required
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="jane@email.com"
+                      className={fieldClass}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelClass}>Phone Number*</label>
+                    <input
+                      required
+                      type="tel"
+                      name="phone"
+                      value={form.phone}
+                      onChange={handleChange}
+                      placeholder="+44 7000 000000"
+                      className={fieldClass}
+                    />
+                  </div>
+                </motion.div>
 
-            <motion.button
-              variants={fieldRise}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
-              className="mt-3 w-full rounded-full bg-white py-2.5 font-sans text-sm font-bold text-navy"
-            >
-              Submit Inquiry
-            </motion.button>
+                <motion.div variants={fieldRise} className="mt-2.5">
+                  <label className={labelClass}>Country/Region</label>
+                  <input
+                    type="text"
+                    name="country"
+                    value={form.country}
+                    onChange={handleChange}
+                    placeholder="United Kingdom"
+                    className={fieldClass}
+                  />
+                </motion.div>
+
+                <motion.div variants={fieldRise} className="mt-2.5">
+                  <label className={labelClass}>What capital are you looking to invest?*</label>
+                  <div className="relative">
+                    <select
+                      required
+                      name="what_capital_are_you_looking_to_invest"
+                      value={form.what_capital_are_you_looking_to_invest}
+                      onChange={handleChange}
+                      className={`${fieldClass} appearance-none pr-9`}
+                    >
+                      <option value="" disabled className="text-navy">
+                        Please Select
+                      </option>
+                      {CAPITAL_OPTIONS.map((c) => (
+                        <option key={c} value={c} className="text-navy">
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-white/50" />
+                  </div>
+                </motion.div>
+
+                <motion.div variants={fieldRise} className="mt-2.5">
+                  <label className={labelClass}>When do you want to invest?*</label>
+                  <div className="relative">
+                    <select
+                      required
+                      name="when_do_you_want_to_invest"
+                      value={form.when_do_you_want_to_invest}
+                      onChange={handleChange}
+                      className={`${fieldClass} appearance-none pr-9`}
+                    >
+                      <option value="" disabled className="text-navy">
+                        Please Select
+                      </option>
+                      {TIMELINE_OPTIONS.map((t) => (
+                        <option key={t} value={t} className="text-navy">
+                          {t}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown size={16} className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-white/50" />
+                  </div>
+                </motion.div>
+
+                {status === 'error' && (
+                  <p className="mt-2.5 font-sans text-xs font-medium text-red-300">
+                    Something went wrong submitting your inquiry. Please try again.
+                  </p>
+                )}
+
+                <motion.button
+                  variants={fieldRise}
+                  whileHover={{ scale: status === 'submitting' ? 1 : 1.02 }}
+                  whileTap={{ scale: status === 'submitting' ? 1 : 0.98 }}
+                  type="submit"
+                  disabled={status === 'submitting'}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-white py-2.5 font-sans text-sm font-bold text-navy disabled:opacity-70"
+                >
+                  {status === 'submitting' ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />
+                      Submitting…
+                    </>
+                  ) : (
+                    'Submit Inquiry'
+                  )}
+                </motion.button>
+              </>
+            )}
           </motion.form>
         </div>
       </motion.div>

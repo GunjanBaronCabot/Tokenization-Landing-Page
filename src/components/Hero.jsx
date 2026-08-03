@@ -41,6 +41,8 @@ export default function Hero() {
         <motion.img
           src={heroBanner}
           alt=""
+          fetchPriority="high"
+          decoding="async"
           style={{ y: bgY, scale: bgScale }}
           className="absolute inset-0 h-full w-full object-cover object-[center_20%] will-change-transform"
         />

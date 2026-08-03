@@ -7,7 +7,7 @@ import StackSection from './StackSection.jsx'
 import whoSkyscrapers from '../assets/who-skyscrapers.jpg'
 import whoHandshake from '../assets/who-handshake.webp'
 import whoReviewDetails from '../assets/who-review-details.jpg'
-import whoConsultation from '../assets/who-consultation.png'
+import whoConsultation from '../assets/who-consultation.jpg'
 import pressBbc from '../assets/press-bbc.png'
 import pressBloomberg from '../assets/press-bloomberg.png'
 import pressCnbc from '../assets/press-cnbc.png'
@@ -149,6 +149,8 @@ export default function WhoThisIsFor() {
       <img
         src={whoSkyscrapers}
         alt=""
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-navy/20" />
@@ -226,6 +228,8 @@ export default function WhoThisIsFor() {
                   <img
                     src={image}
                     alt=""
+                    loading="lazy"
+                    decoding="async"
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                   />
                   <motion.span
@@ -259,6 +263,8 @@ export default function WhoThisIsFor() {
               key={`${logo.name}-${i}`}
               src={logo.src}
               alt={logo.name}
+              loading="lazy"
+              decoding="async"
               className="h-5 w-auto shrink-0 object-contain opacity-80 brightness-0 invert transition-opacity duration-300 hover:opacity-100 sm:h-7"
             />
           ))}

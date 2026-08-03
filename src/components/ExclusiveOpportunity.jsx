@@ -7,7 +7,7 @@ import GradientOrb from './GradientOrb.jsx'
 import FloatingBadge from './FloatingBadge.jsx'
 import AnimatedStat from './AnimatedStat.jsx'
 import OrbitRing from './OrbitRing.jsx'
-import exclusiveBg from '../assets/exclusive-opportunity-bg.png'
+import exclusiveBg from '../assets/exclusive-opportunity-bg.jpg'
 import TagRibbon from './TagRibbon.jsx'
 
 const contentStagger = {
@@ -39,6 +39,8 @@ export default function ExclusiveOpportunity() {
       <img
         src={exclusiveBg}
         alt=""
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
 

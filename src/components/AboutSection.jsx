@@ -57,6 +57,8 @@ export default function AboutSection() {
               <img
                 src={aboutGlassTower}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full scale-110 object-cover"
               />
             </Parallax>
@@ -86,6 +88,8 @@ export default function AboutSection() {
               <img
                 src={aboutSkyline}
                 alt=""
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full scale-110 object-cover"
               />
             </Parallax>

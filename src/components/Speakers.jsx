@@ -4,8 +4,8 @@ import RevealText from './RevealText.jsx'
 import StackSection from './StackSection.jsx'
 import FloatingBadge from './FloatingBadge.jsx'
 import AvatarCluster from './AvatarCluster.jsx'
-import speakerMark from '../assets/speaker-mark-pearson.png'
-import speakerTom from '../assets/speaker-tom-hepworth.png'
+import speakerMark from '../assets/speaker-mark-pearson.jpg'
+import speakerTom from '../assets/speaker-tom-hepworth.jpg'
 import speakersSky from '../assets/speakers-tower-bridge-2.jpg'
 
 const SPEAKERS = [
@@ -46,6 +46,8 @@ export default function Speakers() {
       <img
         src={speakersSky}
         alt=""
+        loading="lazy"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0 bg-white/10" />
@@ -127,6 +129,8 @@ export default function Speakers() {
                 <img
                   src={image}
                   alt={name}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full scale-105 object-cover transition-transform duration-500 ease-out group-hover:scale-[1.18]"
                 />
               </div>
