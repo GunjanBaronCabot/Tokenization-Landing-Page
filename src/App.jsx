@@ -9,12 +9,14 @@ import TrustpilotReviews from './components/TrustpilotReviews.jsx'
 import InquirySection from './components/InquirySection.jsx'
 import Footer from './components/Footer.jsx'
 import ScrollProgressBar from './components/ScrollProgressBar.jsx'
-                 
+import WhatsAppButton from './components/WhatsAppButton.jsx'
+
 export default function App() {
   return (
     <MotionConfig reducedMotion="user">
       <main>
         <ScrollProgressBar />
+        <WhatsAppButton />
         <Hero />
         <ValueProposition />
         <WhoThisIsFor />
