@@ -1,10 +1,40 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 
 const GROW_DISTANCE = 420
 
+// Browsers only allow autoplay when a video starts muted, so we autoplay
+// muted and unmute on the first real user interaction (a genuine gesture,
+// unlike the scroll-triggered onViewportEnter mount above). The interaction
+// can happen before the video ever mounts (e.g. clicking something higher
+// up the page before scrolling down), so we track it as state and apply it
+// whenever the video becomes available, rather than a one-shot listener.
+function useHasInteracted() {
+  const [hasInteracted, setHasInteracted] = useState(false)
+
+  useEffect(() => {
+    if (hasInteracted) return
+    const markInteracted = () => setHasInteracted(true)
+    const events = ['pointerdown', 'keydown']
+    events.forEach((event) => window.addEventListener(event, markInteracted, { once: true }))
+    return () => events.forEach((event) => window.removeEventListener(event, markInteracted))
+  }, [hasInteracted])
+
+  return hasInteracted
+}
+
 export default function ScrollGrowVideo() {
   const [hasEntered, setHasEntered] = useState(false)
+  const mobileVideoRef = useRef(null)
+  const desktopVideoRef = useRef(null)
+  const hasInteracted = useHasInteracted()
+
+  useEffect(() => {
+    if (!hasInteracted) return
+    ;[mobileVideoRef, desktopVideoRef].forEach((ref) => {
+      if (ref.current) ref.current.muted = false
+    })
+  }, [hasInteracted, hasEntered])
 
   // Driven by absolute page scroll (not the video's own position) so it
   // always starts small at the very top of the page, regardless of how
@@ -29,6 +59,7 @@ export default function ScrollGrowVideo() {
         {hasEntered && (
           <>
             <motion.video
+              ref={mobileVideoRef}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
@@ -41,6 +72,7 @@ export default function ScrollGrowVideo() {
               controls
             />
             <motion.video
+              ref={desktopVideoRef}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
