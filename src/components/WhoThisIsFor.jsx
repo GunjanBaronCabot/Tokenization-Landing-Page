@@ -3,7 +3,6 @@ import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { Globe2, ShieldCheck, Home } from 'lucide-react'
 import Button from './Button.jsx'
 import RevealText from './RevealText.jsx'
-import StackSection from './StackSection.jsx'
 import whoSkyscrapers from '../assets/who-skyscrapers.jpg'
 import whoHandshake from '../assets/who-handshake.webp'
 import whoReviewDetails from '../assets/who-review-details.jpg'
@@ -21,7 +20,7 @@ const AUTO_ROTATE_INTERVAL = 3200
 const RESUME_AFTER_INTERACTION = 5000
 
 const CARDS = [
-  { text: 'Step One: Complete them short application form.', image: whoHandshake, icon: Globe2 },
+  { text: 'Step One: Complete the short application form.', image: whoHandshake, icon: Globe2 },
   {
     text: 'Step Two:  Our team will review your information.',
     image: whoReviewDetails,
@@ -142,9 +141,8 @@ export default function WhoThisIsFor() {
   }
 
   return (
-    <StackSection
-      index={2}
-      className="relative flex min-h-[100dvh] items-start overflow-hidden bg-white px-4 pb-16 pt-8 sm:px-6 sm:pb-24 sm:pt-14 lg:px-10"
+    <section
+      className="relative flex min-h-[100svh] items-start overflow-hidden bg-white px-4 pb-16 pt-8 sm:px-6 sm:pb-24 sm:pt-14 lg:px-10"
     >
       <img
         src={whoSkyscrapers}
@@ -270,6 +268,6 @@ export default function WhoThisIsFor() {
           ))}
         </div>
       </div>
-    </StackSection>
+    </section>
   )
 }

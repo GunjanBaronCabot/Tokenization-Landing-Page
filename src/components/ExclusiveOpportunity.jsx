@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { Check, Compass, TrendingUp } from 'lucide-react'
 import Button from './Button.jsx'
 import RevealText from './RevealText.jsx'
-import StackSection from './StackSection.jsx'
 import GradientOrb from './GradientOrb.jsx'
 import FloatingBadge from './FloatingBadge.jsx'
 import AnimatedStat from './AnimatedStat.jsx'
@@ -32,9 +31,8 @@ const LEARN_POINTS = [
 
 export default function ExclusiveOpportunity() {
   return (
-    <StackSection
-      index={3}
-      className="relative flex min-h-[100dvh] flex-col items-center justify-start overflow-hidden px-4 pb-4 pt-10 sm:px-6 sm:pb-24 sm:pt-16"
+    <section
+      className="relative flex min-h-[100svh] flex-col items-center justify-start overflow-hidden px-4 pb-4 pt-10 sm:px-6 sm:pb-24 sm:pt-16"
     >
       <img
         src={exclusiveBg}
@@ -141,6 +139,6 @@ export default function ExclusiveOpportunity() {
               tone="dark"
               className="inset-x-0 bottom-20 sm:bottom-30 lg:hidden"
             />
-    </StackSection>
+    </section>
   )
 }

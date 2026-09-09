@@ -2,7 +2,6 @@ import { Fragment } from 'react'
 import { motion } from 'framer-motion'
 import { Sparkles } from 'lucide-react'
 import Button from './Button.jsx'
-import StackSection from './StackSection.jsx'
 import AnimatedStat from './AnimatedStat.jsx'
 import OrbitRing from './OrbitRing.jsx'
 import TagRibbon from './TagRibbon.jsx'
@@ -37,9 +36,8 @@ const wordVariant = {
 
 export default function ValueProposition() {
   return (
-    <StackSection
-      index={1}
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-white px-4 py-4 sm:px-6 sm:py-20"
+    <section
+      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-white px-4 py-4 sm:px-6 sm:py-20"
     >
       <img
         src={exclusiveBg}
@@ -124,6 +122,6 @@ export default function ValueProposition() {
         tone="dark"
         className="inset-x-0 bottom-20 sm:bottom-30 lg:hidden"
       />
-    </StackSection>
+    </section>
   )
 }

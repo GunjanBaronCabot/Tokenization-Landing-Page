@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Star, BadgeCheck } from 'lucide-react'
-import StackSection from './StackSection.jsx'
 import testimonialBg from '../assets/testimonial-bg.jpg'
 
 const REVIEWS = [
@@ -121,9 +120,8 @@ export default function TrustpilotReviews() {
   const loop = [...REVIEWS, ...REVIEWS]
 
   return (
-    <StackSection
-      index={6}
-      className="relative flex min-h-[100dvh] flex-col justify-center overflow-hidden py-8 sm:py-20"
+    <section
+      className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden py-8 sm:py-20"
     >
       <img
         src={testimonialBg}
@@ -163,6 +161,6 @@ export default function TrustpilotReviews() {
           ))}
         </div>
       </motion.div>
-    </StackSection>
+    </section>
   )
 }
