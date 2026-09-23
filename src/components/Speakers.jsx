@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { Award, Compass, Star } from 'lucide-react'
 import RevealText from './RevealText.jsx'
-import StackSection from './StackSection.jsx'
 import FloatingBadge from './FloatingBadge.jsx'
 import AvatarCluster from './AvatarCluster.jsx'
 import speakerMark from '../assets/speaker-mark-pearson.jpg'
@@ -39,9 +38,8 @@ const fadeUp = {
 
 export default function Speakers() {
   return (
-    <StackSection
-      index={4}
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center overflow-hidden bg-white px-4 py-8 sm:px-6 sm:py-20"
+    <section
+      className="relative flex min-h-[100svh] flex-col items-center justify-center overflow-hidden bg-white px-4 py-8 sm:px-6 sm:py-20"
     >
       <img
         src={speakersSky}
@@ -140,6 +138,6 @@ export default function Speakers() {
           ))}
         </div>
       </div>
-    </StackSection>
+    </section>
   )
 }

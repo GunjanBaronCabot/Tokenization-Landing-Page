@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import RevealText from './RevealText.jsx'
-import StackSection from './StackSection.jsx'
 import Parallax from './Parallax.jsx'
 import useCountUp from './useCountUp.js'
 import aboutGlassTower from '../assets/about-glass-tower.jpg'
@@ -35,10 +34,9 @@ function StatNumber({ prefix, target, suffix }) {
 
 export default function AboutSection() {
   return (
-    <StackSection
+    <section
       id="about"
-      index={5}
-      className="relative flex min-h-[100dvh] flex-col items-center justify-center bg-white px-4 py-8 sm:px-6 sm:py-20 lg:px-10"
+      className="relative flex min-h-[100svh] flex-col items-center justify-center bg-white px-4 py-8 sm:px-6 sm:py-20 lg:px-10"
     >
       <div className="mx-auto max-w-7xl">
         <h2 className="text-center font-serif text-[32px] font-semibold leading-[1.15] text-navy sm:text-[48px] lg:text-[64px]">
@@ -123,6 +121,6 @@ export default function AboutSection() {
           </motion.div>
         </div>
       </div>
-    </StackSection>
+    </section>
   )
 }

@@ -1,6 +1,7 @@
 import { MotionConfig } from 'framer-motion'
 import Hero from './components/Hero.jsx'
 import AboutSection from './components/AboutSection.jsx'
+import BrochureSection from './components/BrochureSection.jsx'
 import ValueProposition from './components/ValueProposition.jsx'
 import WhoThisIsFor from './components/WhoThisIsFor.jsx'
 import ExclusiveOpportunity from './components/ExclusiveOpportunity.jsx'
@@ -23,6 +24,7 @@ export default function App() {
         <ExclusiveOpportunity />
         <Speakers />
         <AboutSection />
+        <BrochureSection />
         <TrustpilotReviews />
         <InquirySection />
         {/* <Footer /> */}

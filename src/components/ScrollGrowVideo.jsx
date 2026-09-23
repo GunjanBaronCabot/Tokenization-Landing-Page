@@ -25,23 +25,27 @@ function useHasInteracted() {
 
 export default function ScrollGrowVideo() {
   const [hasEntered, setHasEntered] = useState(false)
-  const mobileVideoRef = useRef(null)
-  const desktopVideoRef = useRef(null)
+  const videoRef = useRef(null)
   const hasInteracted = useHasInteracted()
 
   useEffect(() => {
     if (!hasInteracted) return
-    ;[mobileVideoRef, desktopVideoRef].forEach((ref) => {
-      if (ref.current) ref.current.muted = false
-    })
+    if (videoRef.current) videoRef.current.muted = false
   }, [hasInteracted, hasEntered])
 
   // Driven by absolute page scroll (not the video's own position) so it
   // always starts small at the very top of the page, regardless of how
   // tall the hero content above it happens to be on a given screen size.
+  //
+  // Uses `scale` (a transform) rather than `width` so the box always keeps
+  // its final full-size footprint in the document flow - only its paint
+  // shrinks. Animating `width` on a box with a fixed aspect-ratio also
+  // changes its layout height as it grows, which shifts every section
+  // below it mid-scroll and threw off in-page anchor navigation (e.g. the
+  // header's "Register" link landing short of #register).
   const { scrollY } = useScroll()
 
-  const width = useTransform(scrollY, [0, GROW_DISTANCE], ['58%', '100%'], {
+  const scale = useTransform(scrollY, [0, GROW_DISTANCE], [0.58, 1], {
     clamp: true,
   })
   const radius = useTransform(scrollY, [0, GROW_DISTANCE], [24, 0], {
@@ -51,40 +55,25 @@ export default function ScrollGrowVideo() {
   return (
     <section className="relative z-10 mt-5 flex justify-center px-4 pb-20 sm:mt-6 sm:pb-28 lg:mt-8 lg:pb-40">
       <motion.div
-        style={{ width, borderRadius: radius }}
+        style={{ scale, borderRadius: radius }}
         onViewportEnter={() => setHasEntered(true)}
         viewport={{ once: true, amount: 0.1 }}
-        className="aspect-[9/16] max-w-6xl overflow-hidden bg-black shadow-2xl sm:aspect-video"
+        className="aspect-[9/16] w-full max-w-6xl overflow-hidden bg-black shadow-2xl sm:aspect-video"
       >
         {hasEntered && (
-          <>
-            <motion.video
-              ref={mobileVideoRef}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="h-full w-full object-cover sm:hidden"
-              src="/videos/property-tour-mobile.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              controls
-            />
-            <motion.video
-              ref={desktopVideoRef}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, ease: 'easeOut' }}
-              className="hidden h-full w-full object-cover sm:block"
-              src="/videos/property-tour.mp4"
-              autoPlay
-              muted
-              loop
-              playsInline
-              controls
-            />
-          </>
+          <motion.video
+            ref={videoRef}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="h-full w-full object-cover"
+            src={`${import.meta.env.BASE_URL}videos/property-tour.mp4`}
+            autoPlay
+            muted={!hasInteracted}
+            loop
+            playsInline
+            controls
+          />
         )}
       </motion.div>
     </section>

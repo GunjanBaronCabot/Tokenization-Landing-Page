@@ -37,7 +37,7 @@ export default function Hero() {
     <section className="relative overflow-x-hidden bg-navy pt-0">
       <Header />
 
-      <div ref={frameRef} className="relative min-h-[100dvh] overflow-hidden">
+      <div ref={frameRef} className="relative min-h-[100svh] overflow-hidden">
         <motion.img
           src={heroBanner}
           alt=""
