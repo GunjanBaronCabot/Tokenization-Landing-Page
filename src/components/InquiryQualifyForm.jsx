@@ -44,6 +44,17 @@ export default function InquiryQualifyForm({
     }
     setError('')
 
+    const outcome =
+      budget === LOW_BUDGET_OPTION ? 'low_budget' : describesYou === PARTNERSHIP_JOB_OPTION ? 'job_seeker' : 'qualified'
+
+    window.dataLayer = window.dataLayer || []
+    window.dataLayer.push({
+      event: 'lead_form_step1',
+      budget,
+      investor_type: describesYou,
+      outcome,
+    })
+
     if (budget === LOW_BUDGET_OPTION) {
       setInfoModalOpen(true)
       return
@@ -126,6 +137,30 @@ export default function InquiryQualifyForm({
             [BUDGET_FIELD_NAME]: budget,
             [DESCRIBES_YOU_FIELD_NAME]: describesYou,
           }}
+          onSubmitSuccess={(values) =>
+            new Promise((resolve) => {
+              let done = false
+              const finish = () => {
+                if (!done) {
+                  done = true
+                  resolve()
+                }
+              }
+
+              window.dataLayer = window.dataLayer || []
+              window.dataLayer.push({
+                event: 'lead_form_submit_success',
+                form_name: 'free_consultation',
+                budget,
+                investor_type: describesYou,
+                user_data: { email: values.email, phone_number: values.phone },
+                eventCallback: finish,
+                eventTimeout: 2000,
+              })
+
+              setTimeout(finish, 2500) // safety net if GTM is blocked
+            })
+          }
         />
       </Modal>
     </>

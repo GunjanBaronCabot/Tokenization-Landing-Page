@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import ReCAPTCHA from 'react-google-recaptcha'
 import { ChevronDown, Download, Loader2 } from 'lucide-react'
@@ -61,6 +61,20 @@ function getHubspotTrackingCookie() {
   return match ? match[1] : null
 }
 
+// HubSpot's forms submission API doesn't infer the visitor's IP from the
+// request itself (unlike its own embedded/hosted forms) - it has to be
+// passed explicitly in context.ipAddress, or submissions show up flagged
+// as missing an IP address in the HubSpot UI.
+async function fetchVisitorIp() {
+  try {
+    const res = await fetch('https://api.ipify.org?format=json')
+    const data = await res.json()
+    return data?.ip || null
+  } catch {
+    return null // best-effort only; submission still proceeds without it
+  }
+}
+
 /**
  * Shared HubSpot lead-capture form. Submits straight to HubSpot's public
  * forms submission API from the browser - no backend involved. The
@@ -84,6 +98,7 @@ export default function LeadForm({
   thankYouKey,
   showInvestmentFields = true,
   extraFields = {},
+  onSubmitSuccess,
   className = 'w-full max-w-md rounded-2xl border border-white/10 bg-navy/40 p-4 backdrop-blur-xl sm:p-5',
 }) {
   const [form, setForm] = useState(emptyForm)
@@ -93,6 +108,14 @@ export default function LeadForm({
   const [honeypot, setHoneypot] = useState('')
   const recaptchaRef = useRef(null)
   const formLoadedAtRef = useRef(Date.now())
+  const visitorIpRef = useRef(null)
+  const isSubmittingRef = useRef(false)
+
+  useEffect(() => {
+    fetchVisitorIp().then((ip) => {
+      visitorIpRef.current = ip
+    })
+  }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -110,9 +133,15 @@ export default function LeadForm({
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    // Guards against a fast double/triple-click submitting twice: `status` is React state,
+    // so the button's `disabled` attribute only updates after a re-render. A ref is read/written
+    // synchronously, so a second click during the same tick is dropped immediately.
+    if (isSubmittingRef.current) return
     if (!import.meta.env.DEV && !captchaToken) return
     if (honeypot) return // hidden field only a bot would fill in
     if (Date.now() - formLoadedAtRef.current < MIN_FILL_TIME_MS) return // too fast to be a human
+
+    isSubmittingRef.current = true
 
     if (!EMAIL_PATTERN.test(form.email)) {
       setValidationError('Please enter a valid email address.')
@@ -145,12 +174,15 @@ export default function LeadForm({
               pageUri: window.location.href,
               pageName: document.title,
               ...(hutk ? { hutk } : {}),
+              ...(visitorIpRef.current ? { ipAddress: visitorIpRef.current } : {}),
             },
           }),
         }
       )
 
       if (!res.ok) throw new Error(`Lead submission failed: ${res.status}`)
+
+      await onSubmitSuccess?.(form)
 
       if (thankYouKey) {
         sessionStorage.setItem(THANK_YOU_ACCESS_KEY, thankYouKey)
@@ -164,6 +196,7 @@ export default function LeadForm({
       console.error(err)
       setStatus('error')
     } finally {
+      isSubmittingRef.current = false
       recaptchaRef.current?.reset()
       setCaptchaToken(null)
     }

@@ -42,6 +42,10 @@ let page = <App />
 if (matchedRoute) {
   const cameFromForm = sessionStorage.getItem(THANK_YOU_ACCESS_KEY) === matchedRoute
   if (cameFromForm) {
+    // One-time token: clear it immediately so a refresh, back/forward nav, or reopening
+    // this URL from history bounces to the homepage instead of re-rendering the page and
+    // re-firing the hubspot_form_success dataLayer event (and every tag bound to it).
+    sessionStorage.removeItem(THANK_YOU_ACCESS_KEY)
     page = <ThankYouPage {...THANK_YOU_ROUTES[matchedRoute]} />
   } else {
     // Not reached via a real form submission - bounce back to the homepage instead of
